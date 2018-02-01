@@ -1,4 +1,6 @@
 const gulp = require('gulp')
+const uglify = require('gulp-uglify')
+const util = require('gulp-util')
 const Elixir = require('laravel-elixir')
 const html2js = require('gulp-html2js');
 
@@ -16,6 +18,7 @@ Elixir.extend('angularViews', (src, output, outputFilename) => {
         name: false
       })
     )
+    .pipe(config.production ? uglify(Elixir.config.js.uglify.options) : util.noop())
     .pipe(
       gulp.dest( output || config.get('public.js.outputFolder') )
     )
